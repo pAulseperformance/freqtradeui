@@ -1,10 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}
+    Free Trader
+{% endblock %}
 
-</body>
-</html>
+{% block content %}
+    <div class="item1">Free Trader UI</div>
+
+    <div class="item2">
+        <form method="post" action="">
+            <input title="Hi" about="About" type="submit" name="command" value="Start">
+            <input type="submit" name="command" value="Stop">
+            <input type="submit" name="command" value="Balance">
+            <input type="submit" name="command" value="Stopbuy">
+            <input type="submit" name="command" value="reload_conf">
+            <input type="submit" name="command" value="status">
+            <input type="submit" name="command" value="count">
+            <input type="submit" name="command" value="profit">
+            {#        <input type="submit" name="command" value="forcesell">#}
+            {#        <input type="submit" name="command" value="forcebuy">#}
+            <input type="submit" name="command" value="performance">
+            <input type="submit" name="command" value="daily">
+            <input type="submit" name="command" value="edge">
+            <input type="submit" name="command" value="blacklist">
+            <input type="submit" name="command" value="whitelist">
+            <input type="submit" name="command" value="version">
+        </form>
+    </div>
+
+    <div class="item3">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="item4">
+{#    {% include 'chart.html' %}#}
+        {% if graphdata %}
+            {{ graphdata.render()|safe }}
+        {% endif %}
+{#    <embed type="image/svg+xml" src={{ graph_data|safe }} style='max-width:1000px'/>#}
+    </div>
+    {#  <div class="item5">Footer</div>#}
+
+{% endblock %}

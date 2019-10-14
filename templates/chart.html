@@ -1,0 +1,14 @@
+<!-- import plugin script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+<canvas id="myChart" width="400" height="400"></canvas>
+{#<p>{{ data }}</p>#}
+<script>
+    var data = JSON.parse('{{ data|safe }}');
+    console.log(data)
+    var ctx = document.getElementById('myChart');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+    });
+</script>

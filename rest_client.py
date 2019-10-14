@@ -212,14 +212,12 @@ def add_arguments():
                         nargs="*",
                         default=[]
                         )
-
     args = parser.parse_args()
     return vars(args)
 
 
 def load_config(configfile):
     file = Path(configfile)
-    print(file)
     if file.is_file():
         with file.open("r") as f:
             config = json.load(f)
@@ -237,9 +235,8 @@ def print_commands():
 
 
 def main(args):
-
     if args.get("help"):
-        print_commands()
+       print_commands()
 
     config = load_config(args["config"])
     url = config.get("api_server", {}).get("server_url", "127.0.0.1")
@@ -256,8 +253,8 @@ def main(args):
         logger.error(f"Command {command} not defined")
         print_commands()
         return
-
-    print(getattr(client, command)(*args["command_arguments"]))
+    response = getattr(client, command)(*args["command_arguments"])
+    return response
 
 
 if __name__ == "__main__":

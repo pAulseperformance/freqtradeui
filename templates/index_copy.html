@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}
+    Free Trader
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+        <tr>
+            <th>Command</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>start</code></td>
+            <td></td>
+            <td>Starts the trader</td>
+        </tr>
+        <tr>
+            <td><code>stop</code></td>
+            <td></td>
+            <td>Stops the trader</td>
+        </tr>
+        <tr>
+            <td><code>stopbuy</code></td>
+            <td></td>
+            <td>Stops the trader from opening new trades. Gracefully closes open trades according to their rules.</td>
+        </tr>
+        <tr>
+            <td><code>reload_conf</code></td>
+            <td></td>
+            <td>Reloads the configuration file</td>
+        </tr>
+        <tr>
+            <td><code>status</code></td>
+            <td></td>
+            <td>Lists all open trades</td>
+        </tr>
+        <tr>
+            <td><code>status table</code></td>
+            <td></td>
+            <td>List all open trades in a table format</td>
+        </tr>
+        <tr>
+            <td><code>count</code></td>
+            <td></td>
+            <td>Displays number of trades used and available</td>
+        </tr>
+        <tr>
+            <td><code>profit</code></td>
+            <td></td>
+            <td>Display a summary of your profit/loss from close trades and some stats about your performance</td>
+        </tr>
+        <tr>
+            <td><code>forcesell &lt;trade_id&gt;</code></td>
+            <td></td>
+            <td>Instantly sells the given trade (Ignoring <code>minimum_roi</code>).</td>
+        </tr>
+        <tr>
+            <td><code>forcesell all</code></td>
+            <td></td>
+            <td>Instantly sells all open trades (Ignoring <code>minimum_roi</code>).</td>
+        </tr>
+        <tr>
+            <td><code>forcebuy &lt;pair&gt; [rate]</code></td>
+            <td></td>
+            <td>Instantly buys the given pair. Rate is optional. (<code>forcebuy_enable</code> must be set to True)</td>
+        </tr>
+        <tr>
+            <td><code>performance</code></td>
+            <td></td>
+            <td>Show performance of each finished trade grouped by pair</td>
+        </tr>
+        <tr>
+            <td><code>balance</code></td>
+            <td></td>
+            <td>Show account balance per currency</td>
+        </tr>
+        <tr>
+            <td><code>daily &lt;n&gt;</code></td>
+            <td>7</td>
+            <td>Shows profit or loss per day, over the last n days</td>
+        </tr>
+        <tr>
+            <td><code>whitelist</code></td>
+            <td></td>
+            <td>Show the current whitelist</td>
+        </tr>
+        <tr>
+            <td><code>blacklist [pair]</code></td>
+            <td></td>
+            <td>Show the current blacklist, or adds a pair to the blacklist.</td>
+        </tr>
+        <tr>
+            <td><code>edge</code></td>
+            <td></td>
+            <td>Show validated pairs by Edge if it is enabled.</td>
+        </tr>
+        <tr>
+            <td><code>version</code></td>
+            <td></td>
+            <td>Show version</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <br>
+
+
+    <!-- Rounded switch -->
+    <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+    </label>
+
+    <form action="" method="POST" onchange="addArguments()">
+        <select id="commands" name="command">
+            <option value="start">Start</option>
+            <option value="stop">Stop</option>
+            <option value="balance">Balance</option>
+            <option value="stopbuy">Stopbuy</option>
+            <option value="reload_conf">Reload Configuration</option>
+            <option value="status">Status</option>
+            <option value="count">Count</option>
+            <option value="profit">Profit</option>
+            <option value="forcesell">Force Sell</option>
+            <option value="forcebuy">Force Buy</option>
+            <option value="performance">Performance</option>
+            <option value="daily">Daily</option>
+            <option value="edge">Edge</option>
+            <option value="blacklist">Blacklist</option>
+            <option value="whitelist">Whitelist</option>
+            <option value="version">Version</option>
+        </select>
+        <br><br>
+{#        <label id="command-args" for="command_arguments" style="display: none">Command Arguments</label>#}
+        <input type="text" id="command-args" name="command_arguments" value="" style="display: none">
+        <input type="submit">
+    </form>
+
+    <input type="submit", name="Start", value="start"></input>
+    
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+
+{% endblock %}
+
