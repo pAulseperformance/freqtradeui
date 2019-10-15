@@ -1,9 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from rest_client import load_config, FtRestClient, main
 import inspect
-
+import dash
+from reusablecompents import test_layout
 server = Flask(__name__)
 server.secret_key = 'changthiswhendepoloying!'
+
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+
+# Configure Dash App
+app = dash.Dash(
+    __name__,
+    server=server,
+    external_stylesheets=external_stylesheets,
+    routes_pathname_prefix='/dash/'
+)
+
+app.layout = test_layout
 
 
 @server.route('/', methods=['GET', 'POST'])
@@ -44,5 +57,6 @@ def start_bot():
 
 
 if __name__ == '__main__':
-    server.run(debug=True)
+    # server.run(debug=True)  # Just for Flask Standalone
+    app.run_server(debug=True)
 
