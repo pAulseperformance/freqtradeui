@@ -15,7 +15,6 @@ app = dash.Dash(__name__, server=server, external_stylesheets=external_styleshee
 
 @server.route('/', methods=['GET', 'POST'])
 def index():
-    client = start_bot()
     if request.method == 'POST':
         m = [x for x, y in inspect.getmembers(client) if not x.startswith('_')]
         command = request.form['command'].lower()
@@ -35,6 +34,17 @@ def index():
             # return render_template('index.html', data=response)
             return redirect(url_for('index'))
 
+    return render_template('index.html')
+@server.route('/forcebuy')
+def force_buy():
+    response = client.forcebuy('ETH/USDT')
+    flash(response)
+    return render_template('index.html')
+
+@server.route('/forcesell/<int:id>')
+def force_sell(id):
+    response = client.forcesell(id)
+    flash(response)
     return render_template('index.html')
 
 
@@ -72,7 +82,8 @@ def daily_layout(response):
     )
     return layout
 
-app.layout = daily_layout(None)
+app.layout = test_layout
+client = start_bot()
 
 if __name__ == '__main__':
     # server.run(debug=True)  # Just for Flask Standalone
