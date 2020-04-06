@@ -39,7 +39,7 @@ app.layout = html.Div([
     html.Div(children=html.Div(id='graphs'), className='row'),
     dcc.Interval(
         id='graph-update',
-        interval=1000,
+        interval=5000,
         n_intervals=0),
 ], className='container', style={'width': '98%', 'margin-left': 10, 'margin-right': 10})
 
@@ -50,29 +50,26 @@ app.layout = html.Div([
      Input(component_id='graph-update', component_property='n_intervals')]
 )
 def update_graph(input_data, n):
-    # response = client.daily()
-    response =  [['2019-10-12', '1.00000000 USDT', '0.000 USD', '0 trade'],
-            ['2019-10-11', '200.00000000 USDT', '0.000 USD', '0 trade'],
-            ['2019-10-10', '-150.00000000 USDT', '0.000 USD', '0 trade'],
-            ['2019-10-09', '25.00000000 USDT', '0.000 USD', '0 trade'],
-            ['2019-10-08', '22.00000000 USDT', '0.000 USD', '0 trade'],
-            ['2019-10-07', '2.00000000 USDT', '0.000 USD', '0 trade'],
-            ['2019-10-06', '12.00000000 USDT', '0.000 USD', '0 trade']]
     graphs = []
     for input in input_data:
         data = go.Scatter()
         if input == 'daily':
-            print('Inside Daily')
-            # response = client.daily()
+            # print('Inside Daily')
+            response = client.daily()
+            date = [i[0] for i in response]
+            trades = [float(i[3].split(' ')[0]) for i in response]
+            net = [float(i[1].split(' ')[0]) for i in response]
             data = go.Scatter(
-                x = [i[0] for i in response],
-                y = [float(i[1].split(' ')[0]) for i in response],
-                name = 'scatter',
-                fill = 'tozeroy',
-                fillcolor = '#6897bb'
+                x=date,
+                y=net,
+                name=input,
+                mode='lines+markers',
+                # marker=dict(size=net),
+                text= 'USDT'
             )
         if input == 'performance':
-            print('inside Performance ')
+            # response = client.performance()
+
             data = go.Scatter(
                 x = [1,2,3,4,5,6,7],
                 y = [random.uniform(1,2)*1 for i in range(8)],
